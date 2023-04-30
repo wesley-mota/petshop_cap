@@ -1,0 +1,160 @@
+{
+  "_version": "1.49.0",
+  "sap.app": {
+    "id": "petshop",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:lrop",
+      "version": "1.9.4",
+      "toolsId": "cb567e19-239d-4afa-8ff9-28af2b1eb6c5"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/service/shop/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/metadata.xml",
+          "odataVersion": "4.0"
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": true,
+    "dependencies": {
+      "minUI5Version": "1.113.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.ushell": {},
+        "sap.fe.templates": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "petshop.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "synchronizationMode": "None",
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true
+        }
+      },
+      "@i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "uri": "i18n/i18n.properties"
+      }
+    },
+    "resources": {
+      "css": []
+    },
+    "routing": {
+      "config": {},
+      "routes": [
+        {
+          "pattern": ":?query:",
+          "name": "ClientesList",
+          "target": "ClientesList"
+        },
+        {
+          "pattern": "Clientes({key}):?query:",
+          "name": "ClientesObjectPage",
+          "target": "ClientesObjectPage"
+        },
+        {
+          "pattern": "Clientes({key})/pets({key2}):?query:",
+          "name": "PetsObjectPage",
+          "target": "PetsObjectPage"
+        }
+      ],
+      "targets": {
+        "ClientesList": {
+          "type": "Component",
+          "id": "ClientesList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "entitySet": "Clientes",
+              "variantManagement": "Page",
+              "navigation": {
+                "Clientes": {
+                  "detail": {
+                    "route": "ClientesObjectPage"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "ClientesObjectPage": {
+          "type": "Component",
+          "id": "ClientesObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "editableHeaderContent": false,
+              "entitySet": "Clientes",
+              "navigation": {
+                "pets": {
+                  "detail": {
+                    "route": "PetsObjectPage"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "PetsObjectPage": {
+          "type": "Component",
+          "id": "PetsObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "editableHeaderContent": false,
+              "entitySet": "Pets"
+            }
+          }
+        }
+      }
+    }
+  },
+  "sap.fiori": {
+    "registrationIds": [],
+    "archeType": "transactional"
+  }
+}
